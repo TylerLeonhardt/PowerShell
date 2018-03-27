@@ -212,12 +212,12 @@ elseif($Stage -eq 'Build')
         'OutputFile' = $testResultsNoSudo
     }
 
-    if ($isFullBuild) {
+    # if ($isFullBuild) {
         $pesterParam['Tag'] = @('CI','Feature','Scenario')
-    } else {
-        $pesterParam['Tag'] = @('CI')
-        $pesterParam['ThrowOnFailure'] = $true
-    }
+    # } else {
+    #     $pesterParam['Tag'] = @('CI')
+    #     $pesterParam['ThrowOnFailure'] = $true
+    # }
 
     if ($hasRunFailingTestTag)
     {
