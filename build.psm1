@@ -1244,11 +1244,14 @@ Restore the module to '$Pester' by running:
                     }
 
                     Start-NativeExecution -sb $passThruCommand | ForEach-Object $writeCommand
+                    Write-Host "AFTER START-NATIVEEXECUTION"
                     Import-Clixml -Path $passThruFile | Where-Object {$_.TotalCount -is [Int32]}
+                    Write-Host "AFTER IMPORT-CLIXML"
                 }
                 finally
                 {
                     Remove-Item $passThruFile -ErrorAction SilentlyContinue -Force
+                    Write-Host "AFTER REMOVE-ITEM"
                 }
             }
             else
@@ -1256,25 +1259,31 @@ Restore the module to '$Pester' by running:
                 if ($Terse)
                 {
                     Start-NativeExecution -sb {& $powershell -noprofile -c $command} | ForEach-Object { Write-Terse -line $_ }
+                    Write-Host "AFTER START-NATIVEEXECUTION 2"
                 }
                 else
                 {
                     Start-NativeExecution -sb {& $powershell -noprofile -c $command}
+                    Write-Host "AFTER START-NATIVEEXECUTION 3"
                 }
             }
         }
     } finally {
         $env:PSModulePath = $originalModulePath
+        Write-Host "AFTER PSMODULEPATH SET"
         if ($Unelevate)
         {
             Remove-Item $outputBufferFilePath
+            Write-Host "AFTER REMOVE ITEM 2"
         }
     }
 
     if($ThrowOnFailure)
     {
         Test-PSPesterResults -TestResultsFile $OutputFile
+        Write-Host "AFTER TEST-PSPESTERRESULTS"
     }
+    Write-Host "END END END END"
 }
 
 function script:Start-UnelevatedProcess
